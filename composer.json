@@ -1,0 +1,15 @@
+{
+    "name": "htl3r/rock-papaer-scissors",
+    "description": "A rock papper scissors game",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Maximilian Groß",
+            "email": "maximilian@elektro-gross.at"
+        }
+    ],
+    "require": {
+        "typo3fluid/fluid": "^2.6",
+        "doctrine/orm": "^2.6"
+    }
+}
