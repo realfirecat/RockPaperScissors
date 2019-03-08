@@ -1,0 +1,7 @@
+vendor/
+.idea/
+.git/
+priv_key.ppk
+priv_key_openssh.ppk
+pub_key.ppk
+config.php
