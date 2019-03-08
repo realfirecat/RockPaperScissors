@@ -1,5 +1,5 @@
 <?php
-namespace htl3r\rps\php;
+namespace htl3r\rps;
 
 /**
  * Created by PhpStorm.
@@ -8,10 +8,14 @@ namespace htl3r\rps\php;
  * Time: 13:20
  */
 
-$connectionParams = array(
-    'dbname' => 'rockpaperscissors',
-    'user' => 'root',
-    'password' => '',
-    'host' => 'localhost',
-    'driver' => 'pdo_mysql',
-);
+class config {
+    public static function getConnectionParams(){
+        return array(
+            'dbname' => 'rockpaperscissors',
+            'user' => 'root',
+            'password' => '',
+            'host' => 'localhost',
+            'driver' => 'pdo_mysql',
+        );
+    }
+}

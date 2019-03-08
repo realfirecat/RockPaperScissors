@@ -1,4 +1,7 @@
 <?php
+
+namespace htl3r\rps\php;
+
 /**
  * Created by PhpStorm.
  * User: Max-Game
@@ -42,7 +45,7 @@ class Round {
             $playerRole = $this->entityManager->find("\\htl3r\\rps\\entities\\Roletypes", $this->playerChoice);
             $newStatistic->setCpuRoled($cpuRole);
             $newStatistic->setPlayerRoled($playerRole);
-            $newStatistic->setRoledAt(new DateTime());
+            $newStatistic->setRoledAt(new \DateTime());
 
             $this->entityManager->persist($newStatistic);
             $this->entityManager->flush();
@@ -51,5 +54,3 @@ class Round {
         }
     }
 }
-
-(new Round())->newRound(2);

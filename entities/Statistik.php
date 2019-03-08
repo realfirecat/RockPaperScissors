@@ -1,4 +1,6 @@
 <?php
+namespace htl3r\rps\entities;
+
 /**
  * Created by PhpStorm.
  * User: Max-Game
@@ -13,18 +15,18 @@ class Statistik {
     /** @Id @Column(type="integer") @GeneratedValue **/
     protected $id;
     /**
-     * @ManyToOne(targetEntity="Roletypes")
+     * @ManyToOne(targetEntity="Roletypes", inversedBy="id")
      * @JoinColumn(name="playerRoled", referencedColumnName="id")
      */
     protected $playerRoled;
     /**
-     * @ManyToOne(targetEntity="Roletypes")
+     * @ManyToOne(targetEntity="Roletypes", inversedBy="id")
      * @JoinColumn(name="cpuRoled", referencedColumnName="id")
      */
     protected $cpuRoled;
     /**
      * @Column(type="datetime")
-     * @var DateTime
+     * @var \DateTime
      */
     protected $roledAt;
 
@@ -51,6 +53,16 @@ class Statistik {
     public function setCpuRoled($cpuRoled)
     {
         $this->cpuRoled = $cpuRoled;
+    }
+
+    public function setRoledAt($roledAt)
+    {
+        $this->roledAt = $roledAt;
+    }
+
+    public function getRoledAt()
+    {
+        return $this->roledAt;
     }
 
 

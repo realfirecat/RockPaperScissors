@@ -1,4 +1,6 @@
 <?php
+namespace htl3r\rps\entities;
+
 /**
  * Created by PhpStorm.
  * User: Max-Game
@@ -10,8 +12,23 @@
  * @Entity @Table(name="Roletypes")
  **/
 class Roletypes {
-    /** @Id @Column(type="integer") @GeneratedValue **/
+    /** @Id @Column(type="integer") @GeneratedValue
+     * @OneToMany(targetEntity="Statistik", mappedBy="id")
+     */
     protected $id;
     /** @Column(type="string") **/
     protected $description;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 }

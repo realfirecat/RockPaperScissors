@@ -16,7 +16,8 @@
         "psr-4": {
             "htl3r\\rps\\php\\" : "php/",
             "htl3r\\rps\\html\\" : "html/",
-            "htl3r\\rps\\entities\\" : "entities/"
+            "htl3r\\rps\\entities\\" : "entities/",
+            "htl3r\\rps\\" : ""
         }
     }
 }
