@@ -6,18 +6,31 @@
  * Time: 13:56
  */
 
-$stats = [
-  [
-      'time' => 1552137128,
-      'winner' => 'cpu'
-  ],
-  [
-      'time' => time(),
-      'winner' => 'tie'
-  ],
-  [
-      'time' => time(),
-      'winner' => 'player'
-  ]
-];
-echo json_encode(['data' => $stats]);
+require_once "../vendor/autoload.php";
+
+use Doctrine\DBAL\DriverManager;
+use htl3r\rps\config;
+
+try {
+    $conn = DriverManager::getConnection(config::getConnectionParams());
+    $queryBuilder = $conn->createQueryBuilder();
+
+    $sql = $queryBuilder
+        ->select('playerRoled','cpuRoled','roledAt')
+        ->from('statistik')
+        ->orderBy('roledAt','DESC');
+
+    $items = $conn->executeQuery($sql)->fetchAll();
+    $stats = [];
+
+    foreach ($items as $item) {
+        array_push($stats, [
+                'time' => $item['roledAt'],
+                'winner' => 'cpu'
+            ]);
+    }
+
+    echo json_encode(['data' => $stats]);
+} catch (Exception $e) {
+    echo json_encode(['data' => []]);
+}

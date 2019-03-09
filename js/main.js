@@ -5,7 +5,8 @@ document.querySelector('#btn').addEventListener('click', function () {
     })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
+            console.log(json);
+            tableUpdate();
         })
         .catch(error => console.log(error));
 });
@@ -28,8 +29,10 @@ function tableUpdate() {
         .then(function (json) {
             $('#myTable').DataTable().clear().draw();
 
+            bufferTime = [];
+
             json.data.forEach((item) => {
-                let date = new Date(item.time*1000);
+                let date = new Date(item.time);
                 bufferTime.push(date);
 
                 $('#myTable').dataTable().fnAddData( [
@@ -53,13 +56,13 @@ function updateTime() {
 
         let diff = (new Date() - date)/1000;
         if(diff/60 >= 1 && diff/60 < 60){
-            diff=Math.round(diff/60) + "min";
+            diff=Math.round(diff/60) + "min ago";
         } else if(diff/60/60 >= 1 && diff/60/60 < 24){
-            diff=Math.round(diff/60/60) + "h";
+            diff=Math.round(diff/60/60) + "h ago";
         } else if(diff/60/60/24 >= 1){
-            diff=(diff/60/60/24).toFixed(2) + "day(s)";
+            diff=(diff/60/60/24).toFixed(2) + "day(s) ago";
         } else {
-            diff=Math.round(diff) + "sec";
+            diff=Math.round(diff) + "sec ago";
         }
         trs[i].firstChild.innerHTML=diff;
     }
