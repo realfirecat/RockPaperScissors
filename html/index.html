@@ -29,9 +29,9 @@
 <body>
 <form>
     <div class="container_rps">
-        <a href="#"><i class="far fa-9x fa-hand-paper"></i></a>
-        <a href="#"><i class="far fa-9x fa-hand-rock"></i></a>
-        <a href="#"><i class="far fa-9x fa-hand-scissors"></i></a>
+        <a href="#" choice="1"><i class="far fa-9x fa-hand-paper"></i></a>
+        <a href="#" choice="2"><i class="far fa-9x fa-hand-rock"></i></a>
+        <a href="#" choice="3"><i class="far fa-9x fa-hand-scissors"></i></a>
     </div>
 </form>
 <div class="container">
@@ -52,12 +52,8 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="js/main.js"></script>
-<script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
-</script>
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {

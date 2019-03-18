@@ -1,15 +1,28 @@
-document.querySelector('#btn').addEventListener('click', function () {
-    let choice=document.querySelector('#choice').value;
+let links = document.querySelectorAll("a");
+for(let link of links) {
+    link.addEventListener('click', function () {
+        console.log(link.getAttribute('choice'));
+        let choice=link.getAttribute('choice');
 
-    fetch('http://localhost/rpc/api/NewRound.php?choice='+choice, {
-    })
-        .then(response => response.json())
-        .then(json => {
-            console.log(json);
-            tableUpdate();
+        fetch('http://localhost/rpc/api/NewRound.php?choice='+choice, {
         })
-        .catch(error => console.log(error));
-});
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                if (json.gewonnen) {
+                    swal ( "Gewonnen" ,  "" ,  "success" )
+                } else {
+                    swal ( "Verloren" ,  "" ,  "error" )
+                }
+                tableUpdate();
+            })
+            .catch(error => console.log(error));
+    })
+}
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
 
 $(document).ready( function () {
     tableUpdate();
@@ -75,10 +88,13 @@ function canvas(){
             return resp.json();
         })
         .then(function (json) {
-            let percentUser = findAmountElement(json, "user")/json.data.length;
+            let percentUser = 0;
+            let percentCPU = 100;
+            let percentTie = 0;
+            /*let percentUser = findAmountElement(json, "user")/json.data.length;
             let percentCPU = findAmountElement(json, "CPU")/json.data.length;
             let percentTie = findAmountElement(json, "tie")/json.data.length;
-
+*/
             myChart.data.datasets[0].data[0] = percentUser*100;
             myChart.data.datasets[0].data[1] = percentCPU*100;
             myChart.data.datasets[0].data[2] = percentTie*100;
