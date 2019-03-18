@@ -23,10 +23,46 @@ try {
     $items = $conn->executeQuery($sql)->fetchAll();
     $stats = [];
 
+
+    /*
+     * 1 = Rock
+     * 2 = Scissor
+     * 3 = Paper
+     * */
     foreach ($items as $item) {
+        $winner = null;
+        switch ($item['cpuRoled']) {
+            case 1:
+                if ($item['playerRoled'] == 2) {
+                    $winner = 'cpu';
+                } else if ($item['playerRoled'] == 3) {
+                    $winner = 'player';
+                } else if ($item['playerRoled'] == 1) {
+                    $winner = 'tie';
+                }
+                break;
+            case 2:
+                if ($item['playerRoled'] == 2) {
+                    $winner = 'tie';
+                } else if ($item['playerRoled'] == 3) {
+                    $winner = 'player';
+                } else if ($item['playerRoled'] == 1) {
+                    $winner = 'cpu';
+                }
+                break;
+            case 3:
+                if ($item['playerRoled'] == 2) {
+                    $winner = 'cpu';
+                } else if ($item['playerRoled'] == 3) {
+                    $winner = 'cpu';
+                } else if ($item['playerRoled'] == 1) {
+                    $winner = 'player';
+                }
+                break;
+        }
         array_push($stats, [
                 'time' => $item['roledAt'],
-                'winner' => 'cpu'
+                'winner' => $winner
             ]);
     }
 

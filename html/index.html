@@ -4,27 +4,50 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <style>
-
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            grid-template-rows: 1fr;
+            padding: 20px;
+        }
+        #myChartContainer {
+            margin-top: 20px;
+            width: 40rem;
+            height: 40rem;
+        }
+        .container_rps {
+            display: flex;
+            justify-content: space-around;
+        }
+        a {
+            color: black;
+        }
     </style>
 </head>
 <body>
 <form>
-    <div>
-        <label for="choice">Input</label>
-        <input type="text" id="choice">
+    <div class="container_rps">
+        <a href="#"><i class="far fa-9x fa-hand-paper"></i></a>
+        <a href="#"><i class="far fa-9x fa-hand-rock"></i></a>
+        <a href="#"><i class="far fa-9x fa-hand-scissors"></i></a>
     </div>
-    <button type="button" id="btn">New Round</button>
 </form>
-<canvas id="myChart"></canvas>
-<table id="myTable" class="display">
-    <thead>
-    <tr>
-        <th>Round time</th>
-        <th>Winner</th>
-    </tr>
-    </thead>
-</table>
+<div class="container">
+    <div id="myChartContainer">
+        <canvas id="myChart"></canvas>
+    </div>
+    <table id="myTable" class="display">
+        <thead>
+        <tr>
+            <th>Round time</th>
+            <th>Winner</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
@@ -42,8 +65,8 @@
         data: {
             labels: ["User won", "CPU won", "Tie"],
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3],
+                label: '% of wins / object',
+                data: [1, 1, 1],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

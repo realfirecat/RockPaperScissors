@@ -13,6 +13,7 @@ document.querySelector('#btn').addEventListener('click', function () {
 
 $(document).ready( function () {
     tableUpdate();
+    canvas();
 
     setInterval(function () {
         updateTime();
@@ -66,4 +67,35 @@ function updateTime() {
         }
         trs[i].firstChild.innerHTML=diff;
     }
+}
+
+function canvas(){
+    fetch('http://localhost/rpc/api/Statistik.php')
+        .then(function (resp) {
+            return resp.json();
+        })
+        .then(function (json) {
+            let percentUser = findAmountElement(json, "user")/json.data.length;
+            let percentCPU = findAmountElement(json, "CPU")/json.data.length;
+            let percentTie = findAmountElement(json, "tie")/json.data.length;
+
+            myChart.data.datasets[0].data[0] = percentUser*100;
+            myChart.data.datasets[0].data[1] = percentCPU*100;
+            myChart.data.datasets[0].data[2] = percentTie*100;
+
+            myChart.update();
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+function findAmountElement(json, item){
+    let count = 0;
+    json.data.forEach((k) => {
+       if (k.winner.toLowerCase() === item.toLowerCase()) {
+           count++;
+       }
+    });
+    return count;
 }
