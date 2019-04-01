@@ -16,51 +16,17 @@ try {
     $queryBuilder = $conn->createQueryBuilder();
 
     $sql = $queryBuilder
-        ->select('playerRoled','cpuRoled','roledAt')
+        ->select('id', 'playerRoled','cpuRoled','roledAt')
         ->from('statistik')
         ->orderBy('roledAt','DESC');
 
     $items = $conn->executeQuery($sql)->fetchAll();
     $stats = [];
 
-
-    /*
-     * 1 = Rock
-     * 2 = Scissor
-     * 3 = Paper
-     * */
     foreach ($items as $item) {
-        $winner = null;
-        switch ($item['cpuRoled']) {
-            case 1:
-                if ($item['playerRoled'] == 2) {
-                    $winner = 'cpu';
-                } else if ($item['playerRoled'] == 3) {
-                    $winner = 'player';
-                } else if ($item['playerRoled'] == 1) {
-                    $winner = 'tie';
-                }
-                break;
-            case 2:
-                if ($item['playerRoled'] == 2) {
-                    $winner = 'tie';
-                } else if ($item['playerRoled'] == 3) {
-                    $winner = 'player';
-                } else if ($item['playerRoled'] == 1) {
-                    $winner = 'cpu';
-                }
-                break;
-            case 3:
-                if ($item['playerRoled'] == 2) {
-                    $winner = 'cpu';
-                } else if ($item['playerRoled'] == 3) {
-                    $winner = 'cpu';
-                } else if ($item['playerRoled'] == 1) {
-                    $winner = 'player';
-                }
-                break;
-        }
+        $winner = \htl3r\rps\php\Round::getWinner($item['playerRoled'],$item['cpuRoled']);
         array_push($stats, [
+                'id' => $item['id'],
                 'time' => $item['roledAt'],
                 'winner' => $winner
             ]);

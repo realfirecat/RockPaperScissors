@@ -35,6 +35,7 @@ class Round {
         $this->playerChoice=$playerChoice;
         $this->cpuChoice=rand(1,3);
         $this->insertNewStatisticEntry();
+        return $this->cpuChoice;
     }
 
     public function insertNewStatisticEntry(){
@@ -52,5 +53,44 @@ class Round {
         } catch (Exception $e){
             var_dump($e->getMessage());
         }
+    }
+    
+    public static function getWinner($player, $cpu){
+        /*
+         * 1 = Paper
+         * 2 = Rock
+         * 3 = Scissor
+         */
+        $winner = null;
+        switch ($cpu) {
+            case 1:
+                if ($player == 2) {
+                    $winner = 'cpu';
+                } else if ($player == 3) {
+                    $winner = 'player';
+                } else if ($player == 1) {
+                    $winner = 'tie';
+                }
+                break;
+            case 2:
+                if ($player == 2) {
+                    $winner = 'tie';
+                } else if ($player == 3) {
+                    $winner = 'player';
+                } else if ($player == 1) {
+                    $winner = 'cpu';
+                }
+                break;
+            case 3:
+                if ($player == 2) {
+                    $winner = 'cpu';
+                } else if ($player == 3) {
+                    $winner = 'cpu';
+                } else if ($player == 1) {
+                    $winner = 'player';
+                }
+                break;
+        }
+        return $winner;
     }
 }

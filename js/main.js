@@ -9,78 +9,48 @@ for(let link of links) {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                if (json.gewonnen) {
+                if (json.gewonnen === 'player') {
                     swal ( "Gewonnen" ,  "" ,  "success" )
-                } else {
+                } else if (json.gewonnen === 'cpu') {
                     swal ( "Verloren" ,  "" ,  "error" )
+                } else {
+                    swal ( "Unentschieden" ,  "" ,  "warning" )
                 }
-                tableUpdate();
+                canvas();
             })
             .catch(error => console.log(error));
     })
 }
 
 $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
-
-$(document).ready( function () {
-    tableUpdate();
+    var table = $('#myTable').DataTable();
+    let ids = [];
+    
     canvas();
 
-    setInterval(function () {
-        updateTime();
+    setInterval(() => {
+        fetch('http://localhost/rpc/api/Statistik.php')
+            .then(function (resp) {
+                return resp.json();
+            })
+            .then(function (json) {
+                for(let row_json of json.data) {
+                    if (!ids.includes(row_json.id)) {
+                        ids.push(row_json.id);
+                        table.row.add( [
+                            row_json.time,
+                            row_json.winner
+                        ] ).draw( false );
+                    }
+                }
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+
     }, 1000)
 } );
 
-let bufferTime = [];
-
-function tableUpdate() {
-    fetch('http://localhost/rpc/api/Statistik.php')
-        .then(function (resp) {
-            return resp.json();
-        })
-        .then(function (json) {
-            $('#myTable').DataTable().clear().draw();
-
-            bufferTime = [];
-
-            json.data.forEach((item) => {
-                let date = new Date(item.time);
-                bufferTime.push(date);
-
-                $('#myTable').dataTable().fnAddData( [
-                    date,
-                    item.winner
-                ]);
-            });
-
-            updateTime();
-        })
-        .catch(function (error) {
-            console.log(error)
-        })
-}
-
-
-function updateTime() {
-    let trs = document.getElementsByTagName('tr');
-    for (let i = 1; i < trs.length; i++) {
-        let date = new Date(bufferTime[i-1]);
-
-        let diff = (new Date() - date)/1000;
-        if(diff/60 >= 1 && diff/60 < 60){
-            diff=Math.round(diff/60) + "min ago";
-        } else if(diff/60/60 >= 1 && diff/60/60 < 24){
-            diff=Math.round(diff/60/60) + "h ago";
-        } else if(diff/60/60/24 >= 1){
-            diff=(diff/60/60/24).toFixed(2) + "day(s) ago";
-        } else {
-            diff=Math.round(diff) + "sec ago";
-        }
-        trs[i].firstChild.innerHTML=diff;
-    }
-}
 
 function canvas(){
     fetch('http://localhost/rpc/api/Statistik.php')
@@ -88,16 +58,9 @@ function canvas(){
             return resp.json();
         })
         .then(function (json) {
-            let percentUser = 0;
-            let percentCPU = 100;
-            let percentTie = 0;
-            /*let percentUser = findAmountElement(json, "user")/json.data.length;
-            let percentCPU = findAmountElement(json, "CPU")/json.data.length;
-            let percentTie = findAmountElement(json, "tie")/json.data.length;
-*/
-            myChart.data.datasets[0].data[0] = percentUser*100;
-            myChart.data.datasets[0].data[1] = percentCPU*100;
-            myChart.data.datasets[0].data[2] = percentTie*100;
+            myChart.data.datasets[0].data[0] = findAmountElement(json.data, 'player');
+            myChart.data.datasets[0].data[1] = findAmountElement(json.data, 'cpu');
+            myChart.data.datasets[0].data[2] = findAmountElement(json.data, 'tie');
 
             myChart.update();
         })
@@ -108,10 +71,12 @@ function canvas(){
 
 function findAmountElement(json, item){
     let count = 0;
-    json.data.forEach((k) => {
-       if (k.winner.toLowerCase() === item.toLowerCase()) {
-           count++;
-       }
-    });
+
+    for (let k of json){
+        if (k.winner === null) continue;
+        if (k.winner.toLowerCase() === item.toLowerCase()) {
+            count++;
+        }
+    }
     return count;
 }

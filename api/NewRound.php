@@ -12,9 +12,9 @@ $valid=false;
 $gewonnen=false;
 try {
     $newRound = new Round();
-    $newRound->newRound($_GET['choice']);
+    $cpuChoice = $newRound->newRound($_GET['choice']);
     $valid=true;
-    $gewonnen=true;
+    $gewonnen=Round::getWinner($_GET['choice'],$cpuChoice);
 } catch (Exception $e) {}
 
 echo json_encode([
