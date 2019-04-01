@@ -76,18 +76,18 @@ class Round {
                 if ($player == 2) {
                     $winner = 'tie';
                 } else if ($player == 3) {
-                    $winner = 'player';
-                } else if ($player == 1) {
                     $winner = 'cpu';
+                } else if ($player == 1) {
+                    $winner = 'player';
                 }
                 break;
             case 3:
                 if ($player == 2) {
-                    $winner = 'cpu';
-                } else if ($player == 3) {
-                    $winner = 'cpu';
-                } else if ($player == 1) {
                     $winner = 'player';
+                } else if ($player == 3) {
+                    $winner = 'tie';
+                } else if ($player == 1) {
+                    $winner = 'cpu';
                 }
                 break;
         }
