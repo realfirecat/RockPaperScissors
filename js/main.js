@@ -1,20 +1,19 @@
 let links = document.querySelectorAll("a");
-for(let link of links) {
+for (let link of links) {
     link.addEventListener('click', function () {
         console.log(link.getAttribute('choice'));
-        let choice=link.getAttribute('choice');
+        let choice = link.getAttribute('choice');
 
-        fetch('http://localhost/rpc/api/NewRound.php?choice='+choice, {
-        })
+        fetch('http://localhost/rpc/api/NewRound.php?choice=' + choice, {})
             .then(response => response.json())
             .then(json => {
                 console.log(json);
                 if (json.gewonnen === 'player') {
-                    swal ( "Gewonnen" ,  "" ,  "success" )
+                    swal("Gewonnen", "", "success")
                 } else if (json.gewonnen === 'cpu') {
-                    swal ( "Verloren" ,  "" ,  "error" )
+                    swal("Verloren", "", "error")
                 } else {
-                    swal ( "Unentschieden" ,  "" ,  "warning" )
+                    swal("Unentschieden", "", "warning")
                 }
                 canvas();
             })
@@ -22,10 +21,10 @@ for(let link of links) {
     })
 }
 
-$(document).ready( function () {
+$(document).ready(function () {
     var table = $('#myTable').DataTable();
     let ids = [];
-    
+
     canvas();
 
     setInterval(() => {
@@ -34,13 +33,13 @@ $(document).ready( function () {
                 return resp.json();
             })
             .then(function (json) {
-                for(let row_json of json.data) {
+                for (let row_json of json.data) {
                     if (!ids.includes(row_json.id)) {
                         ids.push(row_json.id);
-                        table.row.add( [
+                        table.row.add([
                             row_json.time,
                             row_json.winner
-                        ] ).draw( false );
+                        ]).draw(false);
                     }
                 }
             })
@@ -49,10 +48,10 @@ $(document).ready( function () {
             })
 
     }, 1000)
-} );
+});
 
 
-function canvas(){
+function canvas() {
     fetch('http://localhost/rpc/api/Statistik.php')
         .then(function (resp) {
             return resp.json();
@@ -69,10 +68,10 @@ function canvas(){
         })
 }
 
-function findAmountElement(json, item){
+function findAmountElement(json, item) {
     let count = 0;
 
-    for (let k of json){
+    for (let k of json) {
         if (k.winner === null) continue;
         if (k.winner.toLowerCase() === item.toLowerCase()) {
             count++;
@@ -80,3 +79,27 @@ function findAmountElement(json, item){
     }
     return count;
 }
+
+
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ["User won", "CPU won", "Tie"],
+        datasets: [{
+            label: '% of wins / object',
+            data: [1, 1, 1],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    }
+});

@@ -15,7 +15,9 @@ try {
     $cpuChoice = $newRound->newRound($_GET['choice']);
     $valid=true;
     $gewonnen=Round::getWinner($_GET['choice'],$cpuChoice);
-} catch (Exception $e) {}
+} catch (Exception $e) {
+    $valid=false;
+}
 
 echo json_encode([
     'valid' => $valid,

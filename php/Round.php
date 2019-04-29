@@ -9,8 +9,8 @@ namespace htl3r\rps\php;
  * Time: 21:15
  */
 
-require_once "../vendor/autoload.php";
-require_once "../config.php";
+//require_once "../vendor/autoload.php";
+//require_once "../config.php";
 use \htl3r\rps\entities\Statistik;
 use \htl3r\rps\entities\Roletypes;
 use Doctrine\ORM\EntityManager;
@@ -18,8 +18,8 @@ use Doctrine\ORM\Tools\Setup;
 use \htl3r\rps\config;
 
 class Round {
-    protected $playerChoice;
-    protected $cpuChoice;
+    public $playerChoice;
+    public $cpuChoice;
     protected $entityManager;
 
     public function __construct()
@@ -50,8 +50,11 @@ class Round {
 
             $this->entityManager->persist($newStatistic);
             $this->entityManager->flush();
+
+            return true;
         } catch (Exception $e){
             var_dump($e->getMessage());
+            return false;
         }
     }
     

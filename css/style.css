@@ -1,0 +1,14 @@
+
+#myChartContainer {
+    max-width: 40rem;
+    max-height: 40rem;
+    margin: 30px auto;
+}
+
+.col-sm a {
+    color: black;
+}
+
+.col-sm a:hover {
+    color: gray;
+}

@@ -2,7 +2,7 @@
 // doctrineORM.php
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
-use htl3r\rps\config;
+use htl3r\rps\Config;
 
 require_once "vendor/autoload.php";
 

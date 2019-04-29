@@ -19,6 +19,12 @@
             "htl3r\\rps\\html\\" : "html/",
             "htl3r\\rps\\entities\\" : "entities/",
             "htl3r\\rps\\" : ""
-        }
+        },
+        "classmap": [
+            "php/"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8"
     }
 }
